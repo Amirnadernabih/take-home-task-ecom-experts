@@ -81,44 +81,55 @@ export function ReviewPanel({
   return (
     <aside className="review-column" aria-label="Review">
       <div className="review-panel">
-        <p className="text-section-label review-label">Review</p>
-        <h2 className="review-title">Your security system</h2>
-        <p className="review-description">
-          Review your personalized protection system designed to keep what matters
-          most safe.
-        </p>
+        <div className="review-panel__header">
+          <p className="text-section-label review-label">Review</p>
+          <h2 className="review-title">Your security system</h2>
+          <p className="review-description">
+            Review your personalized protection system designed to keep what matters
+            most safe.
+          </p>
+        </div>
 
-        {GROUP_ORDER.map((category) => (
-          <ReviewGroup
-            key={category}
-            category={category}
-            lines={linesByCategory.get(category) ?? []}
-            showVariantLabelForLine={showVariantLabelForLine}
-            actions={actions}
-          />
-        ))}
-
-        {shippingLine ? (
-          <section className="review-group review-group--shipping" aria-label="Shipping">
-            <div className="review-group__lines">
-              <ReviewLineItem
-                line={shippingLine}
-                showVariantLabel={false}
-                showStepper={false}
+        <div className="review-panel__body">
+          <div className="review-panel__items">
+            {GROUP_ORDER.map((category) => (
+              <ReviewGroup
+                key={category}
+                category={category}
+                lines={linesByCategory.get(category) ?? []}
+                showVariantLabelForLine={showVariantLabelForLine}
                 actions={actions}
               />
-            </div>
-          </section>
-        ) : null}
+            ))}
 
-        <TotalSummary
-          summary={summary}
-          totals={totals}
-          checkoutMessage={checkoutMessage}
-          saveMessage={saveMessage}
-          onCheckout={handleCheckout}
-          onSaveForLater={onSaveForLater}
-        />
+            {shippingLine ? (
+              <section
+                className="review-group review-group--shipping"
+                aria-label="Shipping"
+              >
+                <div className="review-group__lines">
+                  <ReviewLineItem
+                    line={shippingLine}
+                    showVariantLabel={false}
+                    showStepper={false}
+                    actions={actions}
+                  />
+                </div>
+              </section>
+            ) : null}
+          </div>
+
+          <div className="review-panel__summary">
+            <TotalSummary
+              summary={summary}
+              totals={totals}
+              checkoutMessage={checkoutMessage}
+              saveMessage={saveMessage}
+              onCheckout={handleCheckout}
+              onSaveForLater={onSaveForLater}
+            />
+          </div>
+        </div>
       </div>
     </aside>
   );
