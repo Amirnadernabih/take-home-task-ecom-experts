@@ -72,6 +72,7 @@ export function ProductCard({ product, actions }: ProductCardProps) {
             rel="noopener noreferrer"
           >
             Learn More
+            <span className="visually-hidden"> (opens in new tab)</span>
           </a>
 
           {showVariants ? (

@@ -1,3 +1,4 @@
+import type { KeyboardEvent } from 'react';
 import { bundleData } from '../../data';
 import type { BundleCardActions } from '../products/bundleCardActions';
 import { AccordionStep } from './AccordionStep';
@@ -8,6 +9,7 @@ interface BundleAccordionProps {
   setActiveStep: (stepId: string) => void;
   goToNextStep: () => void;
   bundleCardActions: BundleCardActions;
+  onScrollToReview: () => void;
 }
 
 export function BundleAccordion({
@@ -16,6 +18,7 @@ export function BundleAccordion({
   setActiveStep,
   goToNextStep,
   bundleCardActions,
+  onScrollToReview,
 }: BundleAccordionProps) {
   const stepTotal = bundleData.steps.length;
 
@@ -23,9 +26,7 @@ export function BundleAccordion({
     const isLastStep = stepIndex === stepTotal - 1;
 
     if (isLastStep) {
-      document
-        .querySelector('.review-panel')
-        ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      onScrollToReview();
       return;
     }
 
@@ -38,6 +39,39 @@ export function BundleAccordion({
     }
 
     setActiveStep(stepId);
+  };
+
+  const handleHeaderKeyDown = (
+    event: KeyboardEvent<HTMLButtonElement>,
+    stepIndex: number,
+  ) => {
+    const lastIndex = stepTotal - 1;
+    let nextIndex: number | null = null;
+
+    switch (event.key) {
+      case 'ArrowDown':
+        nextIndex = stepIndex === lastIndex ? 0 : stepIndex + 1;
+        break;
+      case 'ArrowUp':
+        nextIndex = stepIndex === 0 ? lastIndex : stepIndex - 1;
+        break;
+      case 'Home':
+        nextIndex = 0;
+        break;
+      case 'End':
+        nextIndex = lastIndex;
+        break;
+      default:
+        return;
+    }
+
+    event.preventDefault();
+    const nextStep = bundleData.steps[nextIndex];
+    if (!nextStep) {
+      return;
+    }
+
+    document.getElementById(`accordion-header-${nextStep.id}`)?.focus();
   };
 
   return (
@@ -54,6 +88,7 @@ export function BundleAccordion({
                 key={step.id}
                 step={step}
                 stepTotal={stepTotal}
+                stepIndex={index}
                 isExpanded={isExpanded}
                 selectedCount={getStepSelectedCount(step.id)}
                 isLastStep={index === stepTotal - 1}
@@ -62,6 +97,7 @@ export function BundleAccordion({
                 bundleCardActions={bundleCardActions}
                 onToggle={() => handleToggle(step.id)}
                 onNext={() => handleNext(index)}
+                onHeaderKeyDown={handleHeaderKeyDown}
               />
             );
           })}

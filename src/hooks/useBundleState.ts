@@ -244,21 +244,29 @@ export function useBundleState() {
     [state.quantities],
   );
 
-  const getReviewLines = useCallback((): ReviewLine[] => {
-    return buildReviewLines(state.quantities);
-  }, [state.quantities]);
+  const reviewLines = useMemo(
+    () => buildReviewLines(state.quantities),
+    [state.quantities],
+  );
 
-  const getTotals = useCallback((): BundleTotals => {
-    const lines = buildReviewLines(state.quantities);
-    const activeTotal = calculateActiveTotal(lines);
-    const compareTotal = calculateCompareTotal(lines);
+  const totals = useMemo((): BundleTotals => {
+    const activeTotal = calculateActiveTotal(reviewLines);
+    const compareTotal = calculateCompareTotal(reviewLines);
 
     return {
       activeTotal,
       compareTotal,
       savings: calculateSavings(compareTotal, activeTotal),
     };
-  }, [state.quantities]);
+  }, [reviewLines]);
+
+  const getReviewLines = useCallback((): ReviewLine[] => {
+    return reviewLines;
+  }, [reviewLines]);
+
+  const getTotals = useCallback((): BundleTotals => {
+    return totals;
+  }, [totals]);
 
   const saveConfiguration = useCallback(() => {
     const payload: PersistedBundleConfig = {
@@ -333,6 +341,8 @@ export function useBundleState() {
     setQuantity,
     getStepSelectedCount,
     getProductTotalQuantity: getProductTotalQuantityForProduct,
+    reviewLines,
+    totals,
     getReviewLines,
     getTotals,
     saveConfiguration,

@@ -1,3 +1,4 @@
+import type { KeyboardEvent } from 'react';
 import type { BundleStep } from '../../types/bundle';
 import type { BundleCardActions } from '../products/bundleCardActions';
 import { ProductGrid } from '../products/ProductGrid';
@@ -6,6 +7,7 @@ import { Icon } from '../ui/Icon';
 interface AccordionStepProps {
   step: BundleStep;
   stepTotal: number;
+  stepIndex: number;
   isExpanded: boolean;
   selectedCount: number;
   isLastStep: boolean;
@@ -14,6 +16,7 @@ interface AccordionStepProps {
   bundleCardActions: BundleCardActions;
   onToggle: () => void;
   onNext: () => void;
+  onHeaderKeyDown: (event: KeyboardEvent<HTMLButtonElement>, stepIndex: number) => void;
 }
 
 function Chevron({ expanded }: { expanded: boolean }) {
@@ -34,6 +37,7 @@ function Chevron({ expanded }: { expanded: boolean }) {
 export function AccordionStep({
   step,
   stepTotal,
+  stepIndex,
   isExpanded,
   selectedCount,
   isLastStep,
@@ -42,9 +46,11 @@ export function AccordionStep({
   bundleCardActions,
   onToggle,
   onNext,
+  onHeaderKeyDown,
 }: AccordionStepProps) {
   const statusLabel =
     selectedCount === 1 ? '1 selected' : `${selectedCount} selected`;
+  const nextButtonLabel = isLastStep ? 'Review your system' : step.nextLabel;
 
   return (
     <article
@@ -58,6 +64,7 @@ export function AccordionStep({
           aria-expanded={isExpanded}
           aria-controls={panelId}
           onClick={onToggle}
+          onKeyDown={(event) => onHeaderKeyDown(event, stepIndex)}
         >
           <span className="accordion-trigger-main">
             <span className="accordion-icon-wrap" aria-hidden>
@@ -72,8 +79,11 @@ export function AccordionStep({
           </span>
           <span className="accordion-status">
             {isExpanded ? (
-              <span className="accordion-selected-count">{statusLabel}</span>
+              <span className="accordion-selected-count" aria-hidden>
+                {statusLabel}
+              </span>
             ) : null}
+            <span className="visually-hidden">{statusLabel}</span>
             <Chevron expanded={isExpanded} />
           </span>
         </button>
@@ -86,14 +96,21 @@ export function AccordionStep({
           role="region"
           aria-labelledby={headerId}
         >
-          <ProductGrid
-            products={step.products}
-            stepId={step.id}
-            actions={bundleCardActions}
-          />
+          <div className="accordion-panel-inner">
+            <ProductGrid
+              products={step.products}
+              stepId={step.id}
+              actions={bundleCardActions}
+            />
+          </div>
 
-          <button type="button" className="accordion-next-button" onClick={onNext}>
-            {isLastStep ? 'Review your system' : step.nextLabel}
+          <button
+            type="button"
+            className="accordion-next-button"
+            onClick={onNext}
+            aria-label={`${nextButtonLabel}, ${step.title}`}
+          >
+            {nextButtonLabel}
           </button>
         </div>
       ) : null}

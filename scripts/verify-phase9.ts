@@ -55,7 +55,7 @@ assert(
 
 console.log('\nMobile touch targets');
 assert(css.includes('min-height: 3rem'), 'Large checkout tap target on mobile');
-assert(css.includes('width: 2.25rem'), 'Larger stepper buttons on mobile');
+assert(css.includes('width: 2.75rem'), 'Larger stepper buttons on mobile');
 
 console.log('\nOverflow prevention');
 assert(css.includes('min-width: 0'), 'Min-width zero on flex/grid children');

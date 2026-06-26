@@ -3,5 +3,9 @@ interface BadgeProps {
 }
 
 export function Badge({ label }: BadgeProps) {
-  return <span className="product-badge">{label}</span>;
+  return (
+    <span className="product-badge" role="status">
+      {label}
+    </span>
+  );
 }

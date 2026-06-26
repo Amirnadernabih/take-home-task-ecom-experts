@@ -1,8 +1,11 @@
+import { useRef } from 'react';
 import { useBundleState } from '../hooks/useBundleState';
 import { BundleAccordion } from './accordion/BundleAccordion';
 import { ReviewPanel } from './review/ReviewPanel';
 
 export function AppShell() {
+  const reviewPanelRef = useRef<HTMLDivElement>(null);
+
   const {
     state,
     summary,
@@ -17,8 +20,8 @@ export function AppShell() {
     decrement,
     canIncrement,
     canDecrement,
-    getReviewLines,
-    getTotals,
+    reviewLines,
+    totals,
     saveConfiguration,
   } = useBundleState();
 
@@ -40,6 +43,13 @@ export function AppShell() {
     canDecrement,
   };
 
+  const scrollToReview = () => {
+    reviewPanelRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+    });
+  };
+
   return (
     <div className="page">
       <div className="app-container">
@@ -54,14 +64,17 @@ export function AppShell() {
             setActiveStep={setActiveStep}
             goToNextStep={goToNextStep}
             bundleCardActions={bundleCardActions}
+            onScrollToReview={scrollToReview}
           />
           <ReviewPanel
-            lines={getReviewLines()}
-            totals={getTotals()}
+            ref={reviewPanelRef}
+            lines={reviewLines}
+            totals={totals}
             summary={summary}
             actions={reviewLineActions}
             onSaveForLater={saveConfiguration}
             saveStatus={state.saveStatus}
+            hasRestoredSavedConfig={state.hasRestoredSavedConfig}
           />
         </div>
       </div>
