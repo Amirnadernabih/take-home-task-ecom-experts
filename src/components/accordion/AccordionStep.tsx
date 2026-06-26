@@ -1,4 +1,6 @@
 import type { BundleStep } from '../../types/bundle';
+import type { BundleCardActions } from '../products/bundleCardActions';
+import { ProductGrid } from '../products/ProductGrid';
 import { Icon } from '../ui/Icon';
 
 interface AccordionStepProps {
@@ -9,6 +11,7 @@ interface AccordionStepProps {
   isLastStep: boolean;
   headerId: string;
   panelId: string;
+  bundleCardActions: BundleCardActions;
   onToggle: () => void;
   onNext: () => void;
 }
@@ -36,6 +39,7 @@ export function AccordionStep({
   isLastStep,
   headerId,
   panelId,
+  bundleCardActions,
   onToggle,
   onNext,
 }: AccordionStepProps) {
@@ -82,11 +86,11 @@ export function AccordionStep({
           role="region"
           aria-labelledby={headerId}
         >
-          <div className="accordion-panel-inner">
-            <p className="accordion-panel-placeholder">
-              Product cards will render here
-            </p>
-          </div>
+          <ProductGrid
+            products={step.products}
+            stepId={step.id}
+            actions={bundleCardActions}
+          />
 
           <button type="button" className="accordion-next-button" onClick={onNext}>
             {isLastStep ? 'Review your system' : step.nextLabel}

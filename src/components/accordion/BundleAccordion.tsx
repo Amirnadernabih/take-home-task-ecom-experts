@@ -1,4 +1,5 @@
 import { bundleData } from '../../data';
+import type { BundleCardActions } from '../products/bundleCardActions';
 import { AccordionStep } from './AccordionStep';
 
 interface BundleAccordionProps {
@@ -6,6 +7,7 @@ interface BundleAccordionProps {
   getStepSelectedCount: (stepId: string) => number;
   setActiveStep: (stepId: string) => void;
   goToNextStep: () => void;
+  bundleCardActions: BundleCardActions;
 }
 
 export function BundleAccordion({
@@ -13,6 +15,7 @@ export function BundleAccordion({
   getStepSelectedCount,
   setActiveStep,
   goToNextStep,
+  bundleCardActions,
 }: BundleAccordionProps) {
   const stepTotal = bundleData.steps.length;
 
@@ -56,6 +59,7 @@ export function BundleAccordion({
                 isLastStep={index === stepTotal - 1}
                 headerId={headerId}
                 panelId={panelId}
+                bundleCardActions={bundleCardActions}
                 onToggle={() => handleToggle(step.id)}
                 onNext={() => handleNext(index)}
               />

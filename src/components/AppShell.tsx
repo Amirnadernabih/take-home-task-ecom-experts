@@ -42,8 +42,31 @@ function ReviewPlaceholder() {
 }
 
 export function AppShell() {
-  const { state, setActiveStep, goToNextStep, getStepSelectedCount } =
-    useBundleState();
+  const {
+    state,
+    setActiveStep,
+    goToNextStep,
+    getStepSelectedCount,
+    getActiveVariant,
+    getQuantity,
+    getProductTotalQuantity,
+    selectVariant,
+    increment,
+    decrement,
+    canIncrement,
+    canDecrement,
+  } = useBundleState();
+
+  const bundleCardActions = {
+    getActiveVariant,
+    getQuantity,
+    getProductTotalQuantity,
+    selectVariant,
+    increment,
+    decrement,
+    canIncrement,
+    canDecrement,
+  };
 
   return (
     <div className="page">
@@ -58,6 +81,7 @@ export function AppShell() {
             getStepSelectedCount={getStepSelectedCount}
             setActiveStep={setActiveStep}
             goToNextStep={goToNextStep}
+            bundleCardActions={bundleCardActions}
           />
           <ReviewPlaceholder />
         </div>
