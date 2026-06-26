@@ -69,13 +69,13 @@ export function ReviewPanel({
 
   const saveMessage =
     saveStatus === 'saved'
-      ? 'Your system has been saved for later.'
+      ? 'System saved'
       : saveStatus === 'error'
         ? 'Unable to save your system. Please try again.'
         : null;
 
   const handleCheckout = () => {
-    setCheckoutMessage('Checkout placeholder — your bundle is ready to purchase.');
+    setCheckoutMessage('Checkout is a prototype action.');
   };
 
   return (

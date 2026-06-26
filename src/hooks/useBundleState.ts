@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { bundleData } from '../data';
 import type {
   BundleState,
@@ -8,6 +8,11 @@ import type {
   ReviewLine,
   SaveStatus,
 } from '../types/bundle';
+import {
+  clearPersistedConfig,
+  loadPersistedConfig,
+  savePersistedConfig,
+} from '../utils/persistence';
 import {
   buildInitialActiveVariants,
   buildInitialQuantities,
@@ -24,9 +29,9 @@ import {
   getStoredQuantity,
 } from '../utils/pricing';
 
-const STORAGE_KEY = 'wyze-bundle-builder-config';
+const SAVE_CONFIRMATION_MS = 3000;
 
-function createInitialState(): BundleState {
+function createDefaultState(): BundleState {
   return {
     activeStepId: bundleData.steps[0]?.id ?? 'cameras',
     activeVariantByProductId: buildInitialActiveVariants(),
@@ -34,6 +39,22 @@ function createInitialState(): BundleState {
     hasRestoredSavedConfig: false,
     saveStatus: 'idle',
   };
+}
+
+function createInitialState(): BundleState {
+  const restored = loadPersistedConfig();
+
+  if (restored) {
+    return {
+      activeStepId: restored.activeStepId,
+      activeVariantByProductId: restored.activeVariantByProductId,
+      quantities: restored.quantities,
+      hasRestoredSavedConfig: true,
+      saveStatus: 'idle',
+    };
+  }
+
+  return createDefaultState();
 }
 
 function resolveVariantId(
@@ -46,6 +67,22 @@ function resolveVariantId(
 
 export function useBundleState() {
   const [state, setState] = useState<BundleState>(createInitialState);
+
+  useEffect(() => {
+    if (state.saveStatus !== 'saved') {
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      setState((current) =>
+        current.saveStatus === 'saved'
+          ? { ...current, saveStatus: 'idle' }
+          : current,
+      );
+    }, SAVE_CONFIRMATION_MS);
+
+    return () => window.clearTimeout(timer);
+  }, [state.saveStatus]);
 
   const setActiveStep = useCallback((stepId: string) => {
     setState((current) => ({
@@ -231,7 +268,7 @@ export function useBundleState() {
     };
 
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      savePersistedConfig(payload);
       setState((current) => ({
         ...current,
         saveStatus: 'saved' satisfies SaveStatus,
@@ -245,28 +282,26 @@ export function useBundleState() {
   }, [state.activeStepId, state.activeVariantByProductId, state.quantities]);
 
   const restoreSavedConfiguration = useCallback(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) {
-        return false;
-      }
-
-      const parsed = JSON.parse(raw) as PersistedBundleConfig;
-
-      setState((current) => ({
-        ...current,
-        activeStepId: parsed.activeStepId ?? current.activeStepId,
-        activeVariantByProductId:
-          parsed.activeVariantByProductId ?? current.activeVariantByProductId,
-        quantities: parsed.quantities ?? current.quantities,
-        hasRestoredSavedConfig: true,
-        saveStatus: 'idle',
-      }));
-
-      return true;
-    } catch {
+    const restored = loadPersistedConfig();
+    if (!restored) {
       return false;
     }
+
+    setState((current) => ({
+      ...current,
+      activeStepId: restored.activeStepId,
+      activeVariantByProductId: restored.activeVariantByProductId,
+      quantities: restored.quantities,
+      hasRestoredSavedConfig: true,
+      saveStatus: 'idle',
+    }));
+
+    return true;
+  }, []);
+
+  const clearSavedConfiguration = useCallback(() => {
+    clearPersistedConfig();
+    setState(createDefaultState());
   }, []);
 
   const canIncrementForProduct = useCallback(
@@ -302,6 +337,7 @@ export function useBundleState() {
     getTotals,
     saveConfiguration,
     restoreSavedConfiguration,
+    clearSavedConfiguration,
     canIncrement: canIncrementForProduct,
     canDecrement: canDecrementForProduct,
   };
