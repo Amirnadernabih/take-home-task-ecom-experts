@@ -55,27 +55,12 @@ export interface BundleSummary {
   expectedCompareTotal: number;
   expectedActiveTotal: number;
   expectedSavings: number;
-  savingsMessage: string;
 }
 
 export interface BundleData {
   steps: BundleStep[];
   shipping: ShippingOption;
   summary: BundleSummary;
-}
-
-export interface SelectedVariantLine {
-  productId: string;
-  variantId: string;
-  productTitle: string;
-  variantLabel: string;
-  category: ProductCategory;
-  quantity: number;
-  unitPrice: number;
-  unitCompareAtPrice?: number;
-  displayPriceLabel?: string;
-  billingSuffix?: string;
-  image?: string;
 }
 
 export type ReviewLineCategory = ProductCategory | 'shipping';

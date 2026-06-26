@@ -5,7 +5,7 @@ const GROUP_LABELS: Record<ProductCategory, string> = {
   cameras: 'Cameras',
   sensors: 'Sensors',
   accessories: 'Accessories',
-  plan: 'Plan',
+  plan: 'Home monitoring plan',
 };
 
 interface ReviewGroupProps {

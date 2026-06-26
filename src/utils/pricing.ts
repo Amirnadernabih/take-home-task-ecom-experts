@@ -1,7 +1,6 @@
 import { bundleData } from '../data';
 import type { Product, ReviewLine, ShippingOption } from '../types/bundle';
 import type { QuantitiesRecord } from '../types/bundle';
-import { formatMoney, formatMoneyWithSuffix } from './format';
 
 export function roundMoney(value: number): number {
   return Math.round(value * 100) / 100;
@@ -233,27 +232,7 @@ export function shouldShowVariantLabelInReview(
   return siblingCount > 1;
 }
 
-export function formatLinePrice(line: ReviewLine): string {
-  if (line.displayPriceLabel === 'FREE') {
-    return 'FREE';
-  }
-
-  if (line.billingSuffix) {
-    return formatMoneyWithSuffix(line.unitPrice, line.billingSuffix);
-  }
-
-  if (line.quantity > 1) {
-    return formatMoney(line.activeLineTotal);
-  }
-
-  return formatMoney(line.unitPrice);
-}
-
-export function calculateActiveTotal(
-  lines: ReviewLine[],
-  _plan?: Product | null,
-  _shipping?: ShippingOption | null,
-): number {
+export function calculateActiveTotal(lines: ReviewLine[]): number {
   return roundMoney(
     getMerchandiseReviewLines(lines).reduce(
       (sum, line) => sum + line.activeLineTotal,
@@ -262,11 +241,7 @@ export function calculateActiveTotal(
   );
 }
 
-export function calculateCompareTotal(
-  lines: ReviewLine[],
-  _plan?: Product | null,
-  _shipping?: ShippingOption | null,
-): number {
+export function calculateCompareTotal(lines: ReviewLine[]): number {
   return roundMoney(
     getMerchandiseReviewLines(lines).reduce(
       (sum, line) => sum + line.compareLineTotal,
@@ -280,17 +255,4 @@ export function calculateSavings(
   activeTotal: number,
 ): number {
   return roundMoney(compareTotal - activeTotal);
-}
-
-export function calculateTotalsFromQuantities(quantities: QuantitiesRecord) {
-  const lines = buildReviewLines(quantities);
-  const activeTotal = calculateActiveTotal(lines);
-  const compareTotal = calculateCompareTotal(lines);
-
-  return {
-    lines,
-    activeTotal,
-    compareTotal,
-    savings: calculateSavings(compareTotal, activeTotal),
-  };
 }

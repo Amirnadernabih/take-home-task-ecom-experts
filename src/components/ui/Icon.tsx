@@ -5,46 +5,68 @@ interface IconProps {
   className?: string;
 }
 
+const strokeIconProps = {
+  viewBox: '0 0 24 24',
+  fill: 'none',
+  stroke: 'currentColor',
+  strokeWidth: 1.5,
+  strokeLinecap: 'round' as const,
+  strokeLinejoin: 'round' as const,
+  'aria-hidden': true,
+};
+
 export function Icon({ name, className }: IconProps) {
   const common = {
     className,
-    viewBox: '0 0 24 24',
-    fill: 'none',
-    stroke: 'currentColor',
-    strokeWidth: 1.75,
-    'aria-hidden': true,
-  } as const;
+    ...strokeIconProps,
+  };
 
   switch (name) {
     case 'camera':
       return (
         <svg {...common}>
-          <path d="M4 8.5V17a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5" />
-          <path d="M8 6.5h8l1.5 2H6.5L8 6.5Z" />
-          <circle cx="12" cy="12.5" r="2.75" />
+          <rect x="7" y="5" width="10" height="8.5" rx="1.75" />
+          <circle cx="12" cy="9.25" r="2.5" />
+          <circle cx="12" cy="9.25" r="0.65" fill="currentColor" stroke="none" />
+          <path d="M11 13.5v1.75" />
+          <path d="M8.5 17.25h7" />
         </svg>
       );
     case 'shield':
       return (
         <svg {...common}>
-          <path d="M12 4.5 5 7.5v5c0 4.2 3 7.4 7 8.5 4-1.1 7-4.3 7-8.5v-5L12 4.5Z" />
+          <path
+            d="M12 4.25 6 7v4.75c0 3.35 2.55 5.95 6 6.85 3.45-.9 6-3.5 6-6.85V7L12 4.25Z"
+            fill="currentColor"
+            fillOpacity="0.12"
+          />
+          <path d="M12 4.25 6 7v4.75c0 3.35 2.55 5.95 6 6.85 3.45-.9 6-3.5 6-6.85V7L12 4.25Z" />
         </svg>
       );
     case 'sensor':
       return (
         <svg {...common}>
-          <path d="M5 12a7 7 0 0 1 14 0" />
-          <path d="M8.5 12a3.5 3.5 0 0 1 7 0" />
-          <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
+          <rect x="8" y="4.5" width="8" height="3.5" rx="0.75" />
+          <circle cx="10.25" cy="6.25" r="0.45" fill="currentColor" stroke="none" />
+          <circle cx="13.75" cy="6.25" r="0.45" fill="currentColor" stroke="none" />
+          <path d="M5 10q7 6 14 0" />
+          <path d="M7 12.5q5 4 10 0" />
+          <path d="M9.5 15q2.5 2.5 5 0" />
         </svg>
       );
     case 'grid':
       return (
         <svg {...common}>
-          <rect x="5" y="5" width="6" height="6" rx="1" />
-          <rect x="13" y="5" width="6" height="6" rx="1" />
-          <rect x="5" y="13" width="6" height="6" rx="1" />
-          <rect x="13" y="13" width="6" height="6" rx="1" />
+          <path d="M10.5 5.5 12 4 13.5 5.5" />
+          <circle cx="7" cy="10" r="1.15" />
+          <circle cx="12" cy="10" r="1.15" />
+          <circle cx="17" cy="10" r="1.15" />
+          <circle cx="7" cy="14" r="1.15" />
+          <circle cx="12" cy="14" r="1.15" />
+          <circle cx="17" cy="14" r="1.15" />
+          <circle cx="7" cy="18" r="1.15" />
+          <circle cx="12" cy="18" r="1.15" />
+          <circle cx="17" cy="18" r="1.15" />
         </svg>
       );
     case 'truck':
@@ -59,16 +81,21 @@ export function Icon({ name, className }: IconProps) {
     case 'cam-unlimited':
       return (
         <svg {...common}>
-          <path d="M12 4.5 5 7.5v5c0 4.2 3 7.4 7 8.5 4-1.1 7-4.3 7-8.5v-5L12 4.5Z" />
+          <path
+            d="M12 4.25 6 7v4.75c0 3.35 2.55 5.95 6 6.85 3.45-.9 6-3.5 6-6.85V7L12 4.25Z"
+            fill="currentColor"
+            fillOpacity="0.12"
+          />
+          <path d="M12 4.25 6 7v4.75c0 3.35 2.55 5.95 6 6.85 3.45-.9 6-3.5 6-6.85V7L12 4.25Z" />
           <path d="M9.5 12.5 11.5 14.5 15 11" />
         </svg>
       );
     case 'motion-sensor':
       return (
         <svg {...common}>
-          <path d="M5 12a7 7 0 0 1 14 0" />
-          <path d="M8.5 12a3.5 3.5 0 0 1 7 0" />
-          <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
+          <path d="M5 10q7 6 14 0" />
+          <path d="M7 12.5q5 4 10 0" />
+          <path d="M9.5 15q2.5 2.5 5 0" />
         </svg>
       );
     case 'sense-hub':

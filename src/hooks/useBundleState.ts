@@ -5,11 +5,9 @@ import type {
   BundleTotals,
   PersistedBundleConfig,
   Product,
-  ReviewLine,
   SaveStatus,
 } from '../types/bundle';
 import {
-  clearPersistedConfig,
   loadPersistedConfig,
   savePersistedConfig,
 } from '../utils/persistence';
@@ -22,7 +20,6 @@ import {
   calculateSavings,
   canDecrementQuantity,
   canIncrementQuantity,
-  clampQuantity,
   getDefaultVariantId,
   getProductTotalQuantity,
   getQuantityKey,
@@ -142,29 +139,6 @@ export function useBundleState() {
     [state.activeVariantByProductId, state.quantities],
   );
 
-  const setQuantity = useCallback(
-    (product: Product, quantity: number, variantId?: string) => {
-      setState((current) => {
-        const resolvedVariantId = resolveVariantId(
-          product,
-          current.activeVariantByProductId,
-          variantId,
-        );
-        const nextQuantity = clampQuantity(product, quantity);
-        const key = getQuantityKey(product, resolvedVariantId);
-
-        return {
-          ...current,
-          quantities: {
-            ...current.quantities,
-            [key]: nextQuantity,
-          },
-        };
-      });
-    },
-    [],
-  );
-
   const increment = useCallback((product: Product, variantId?: string) => {
     setState((current) => {
       const resolvedVariantId = resolveVariantId(
@@ -260,14 +234,6 @@ export function useBundleState() {
     };
   }, [reviewLines]);
 
-  const getReviewLines = useCallback((): ReviewLine[] => {
-    return reviewLines;
-  }, [reviewLines]);
-
-  const getTotals = useCallback((): BundleTotals => {
-    return totals;
-  }, [totals]);
-
   const saveConfiguration = useCallback(() => {
     const payload: PersistedBundleConfig = {
       activeStepId: state.activeStepId,
@@ -288,29 +254,6 @@ export function useBundleState() {
       }));
     }
   }, [state.activeStepId, state.activeVariantByProductId, state.quantities]);
-
-  const restoreSavedConfiguration = useCallback(() => {
-    const restored = loadPersistedConfig();
-    if (!restored) {
-      return false;
-    }
-
-    setState((current) => ({
-      ...current,
-      activeStepId: restored.activeStepId,
-      activeVariantByProductId: restored.activeVariantByProductId,
-      quantities: restored.quantities,
-      hasRestoredSavedConfig: true,
-      saveStatus: 'idle',
-    }));
-
-    return true;
-  }, []);
-
-  const clearSavedConfiguration = useCallback(() => {
-    clearPersistedConfig();
-    setState(createDefaultState());
-  }, []);
 
   const canIncrementForProduct = useCallback(
     (product: Product, variantId?: string): boolean => {
@@ -338,16 +281,11 @@ export function useBundleState() {
     getQuantity,
     increment,
     decrement,
-    setQuantity,
     getStepSelectedCount,
     getProductTotalQuantity: getProductTotalQuantityForProduct,
     reviewLines,
     totals,
-    getReviewLines,
-    getTotals,
     saveConfiguration,
-    restoreSavedConfiguration,
-    clearSavedConfiguration,
     canIncrement: canIncrementForProduct,
     canDecrement: canDecrementForProduct,
   };

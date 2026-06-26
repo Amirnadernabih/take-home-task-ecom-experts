@@ -197,6 +197,7 @@
           "title": "Wyze Sense Motion Sensor",
           "description": "Motion detection for doors, windows, and rooms.",
           "learnMoreUrl": "https://www.wyze.com/product/wyze-sense-motion-sensor",
+          "image": "/products/wyze-sense-motion-sensor.png",
           "icon": "motion-sensor",
           "price": 29.99,
           "maxQuantity": 99,
@@ -212,9 +213,10 @@
         {
           "id": "wyze-sense-hub",
           "category": "sensors",
-          "title": "Wyze Sense Hub (Required)",
+          "title": "Wyze Sense Hub",
           "description": "Required hub to connect Wyze Sense sensors to your system.",
           "learnMoreUrl": "https://www.wyze.com/product/wyze-sense-hub",
+          "image": "/products/wyze-sense-hub.png",
           "icon": "sense-hub",
           "compareAtPrice": 29.92,
           "price": 0,
@@ -247,6 +249,7 @@
           "title": "Wyze MicroSD Card (256GB)",
           "description": "Local storage for continuous recording on compatible Wyze Cams.",
           "learnMoreUrl": "https://www.wyze.com/product/wyze-microsd-card",
+          "image": "/products/wyze-microsd-card-256gb.png",
           "icon": "microsd",
           "price": 20.98,
           "maxQuantity": 99,
@@ -275,7 +278,6 @@
     "financingLabel": "as low as $19.19/mo",
     "expectedCompareTotal": 238.81,
     "expectedActiveTotal": 187.89,
-    "expectedSavings": 50.92,
-    "savingsMessage": "Congrats! You're saving $50.92 on your security bundle!"
+    "expectedSavings": 50.92
   }
 }

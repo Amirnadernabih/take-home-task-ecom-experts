@@ -1,12 +1,11 @@
 export function GuaranteeBadge() {
   return (
-    <div className="guarantee-badge" aria-label="100% Wyze satisfaction guarantee">
-      <span className="guarantee-badge__ring" aria-hidden>
-        100%
-      </span>
-      <span className="guarantee-badge__text">
-        Wyze satisfaction guarantee
-      </span>
+    <div className="guarantee-badge">
+      <img
+        src="/products/satisfaction-badge.png"
+        alt="100% Wyze satisfaction guarantee. Try worry-free for 30 days."
+        className="guarantee-badge__image"
+      />
     </div>
   );
 }

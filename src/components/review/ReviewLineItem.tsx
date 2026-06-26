@@ -74,8 +74,17 @@ export function ReviewLineItem({
   };
 
   return (
-    <div className="review-line-item">
-      <div className="review-line-item__media" aria-hidden>
+    <div
+      className={`review-line-item${
+        line.category === 'shipping' ? ' review-line-item--shipping' : ''
+      }`}
+    >
+      <div
+        className={`review-line-item__media${
+          line.image ? ' review-line-item__media--image' : ''
+        }`}
+        aria-hidden
+      >
         {line.image ? (
           <img
             src={line.image}
@@ -114,7 +123,9 @@ export function ReviewLineItem({
           ) : null}
         </div>
 
-        <ReviewLinePrice line={line} />
+        <div className="review-line-item__price">
+          <ReviewLinePrice line={line} />
+        </div>
       </div>
     </div>
   );

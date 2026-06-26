@@ -24,15 +24,16 @@
   --color-danger: #e23d35;
   --color-compare: #d14343;
 
-  /* Typography */
-  --font-main: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    'Segoe UI', sans-serif;
-  --font-size-xs: 0.6875rem;
-  --font-size-sm: 0.8125rem;
-  --font-size-base: 0.875rem;
-  --font-size-md: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.375rem;
+  /* Typography — Inter (Figma design system) */
+  --font-main: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-size-xs: 0.6875rem; /* 11px */
+  --font-size-sm: 0.8125rem; /* 13px */
+  --font-size-base: 0.875rem; /* 14px */
+  --font-size-md: 1rem; /* 16px */
+  --font-size-lg: 1.125rem; /* 18px */
+  --font-size-xl: 1.375rem; /* 22px */
+  --font-size-2xl: 1.625rem; /* 26px */
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
@@ -90,7 +91,12 @@ body {
   min-height: 100vh;
   font-family: var(--font-main);
   font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
   line-height: var(--line-height-base);
+  font-optical-sizing: auto;
+  font-feature-settings: 'liga' 1, 'calt' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   color: var(--color-text);
   background-color: var(--color-page);
   overflow-x: hidden;
@@ -293,7 +299,7 @@ a:hover {
   border: var(--border-width) solid var(--color-border-soft);
   border-radius: var(--radius-card);
   background: var(--color-page);
-  color: var(--color-primary);
+  color: var(--color-muted);
 }
 
 .accordion-icon {
@@ -345,13 +351,6 @@ a:hover {
   border: var(--border-width) solid var(--color-border-soft);
   border-radius: var(--radius-card);
   background: var(--color-panel-strong);
-}
-
-.accordion-panel-placeholder {
-  margin: 0;
-  font-size: var(--font-size-sm);
-  color: var(--color-muted);
-  text-align: center;
 }
 
 .accordion-next-button {
@@ -407,6 +406,8 @@ a:hover {
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  min-width: 0;
+  overflow: hidden;
   padding: var(--space-4);
   border: var(--border-width) solid var(--color-border-soft);
   border-radius: var(--radius-card);
@@ -643,8 +644,13 @@ a:hover {
 
 .price-stack__compare {
   font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
   color: var(--color-muted);
   text-decoration: line-through;
+}
+
+.product-card .price-stack__compare {
+  color: var(--color-compare);
 }
 
 .price-stack__active {
@@ -711,6 +717,8 @@ a:hover {
 
 .review-group--shipping {
   margin-bottom: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: var(--border-width) solid var(--color-border-soft);
 }
 
 .review-line-item {
@@ -721,16 +729,21 @@ a:hover {
 
 .review-line-item__media {
   flex-shrink: 0;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 3rem;
+  height: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.review-line-item__media--image {
+  background: var(--color-page);
+  border-radius: var(--radius-card);
+}
+
 .review-line-item__image {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 
@@ -738,16 +751,17 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: var(--radius-card);
-  background: var(--color-page);
+  border: var(--border-width) solid var(--color-border-soft);
+  background: var(--color-primary-soft);
   color: var(--color-primary);
 }
 
 .review-line-item__icon {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.35rem;
+  height: 1.35rem;
 }
 
 .review-line-item__body {
@@ -755,15 +769,37 @@ a:hover {
   flex: 1;
   align-items: flex-start;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: var(--space-2);
   min-width: 0;
 }
 
 .review-line-item__details {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  align-items: flex-start;
+  gap: var(--space-2);
   min-width: 0;
+  flex: 1;
+}
+
+.review-line-item__price {
+  flex-shrink: 0;
+  padding-top: 0.125rem;
+}
+
+.review-line-item .quantity-stepper {
+  background: var(--color-page);
+}
+
+.review-line-item .quantity-stepper__button {
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: var(--font-size-sm);
+}
+
+.review-line-item--shipping .review-line-item__icon-wrap {
+  color: var(--color-success);
+  background: var(--color-page);
 }
 
 .review-line-item__title {
@@ -802,31 +838,16 @@ a:hover {
 .guarantee-badge {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
   min-width: 0;
+  background: transparent;
 }
 
-.guarantee-badge__ring {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.guarantee-badge__image {
+  display: block;
+  width: 4rem;
+  height: 4rem;
   flex-shrink: 0;
-  width: 2.75rem;
-  height: 2.75rem;
-  border: var(--border-width-selected) solid var(--color-primary);
-  border-radius: 50%;
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-  line-height: 1;
-  text-align: center;
-}
-
-.guarantee-badge__text {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text);
-  line-height: var(--line-height-tight);
+  object-fit: contain;
 }
 
 .review-financing-pill {
@@ -932,6 +953,11 @@ a:hover {
     margin-bottom: var(--space-4);
   }
 
+  .text-page-title {
+    font-size: var(--font-size-2xl);
+    line-height: 1.2;
+  }
+
   .accordion-trigger {
     padding: var(--space-3) var(--space-4);
     gap: var(--space-2);
@@ -1001,17 +1027,64 @@ a:hover {
     margin-bottom: var(--space-4);
   }
 
+  .review-title {
+    font-size: var(--font-size-lg);
+  }
+
+  .review-group {
+    margin-bottom: var(--space-4);
+  }
+
+  .review-group-label {
+    margin-bottom: var(--space-2);
+  }
+
+  .review-group__lines {
+    gap: 0;
+  }
+
+  .review-line-item {
+    padding: var(--space-3) 0;
+    border-bottom: var(--border-width) solid var(--color-border-soft);
+  }
+
+  .review-group__lines .review-line-item:last-child,
+  .review-group--shipping .review-line-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .review-group__lines .review-line-item:first-child {
+    padding-top: 0;
+  }
+
   .review-line-item__title {
     overflow-wrap: anywhere;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-tight);
   }
 
   .review-line-item__body {
-    flex-wrap: wrap;
-    row-gap: var(--space-2);
+    flex-wrap: nowrap;
+    align-items: flex-start;
   }
 
-  .review-line-item__body .price-stack {
+  .review-line-item__price {
     margin-left: auto;
+  }
+
+  .review-line-item__price .price-stack__active {
+    font-size: var(--font-size-sm);
+  }
+
+  .review-total-summary {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: var(--border-width) solid var(--color-border-soft);
+  }
+
+  .review-total-summary__meta {
+    align-items: flex-start;
   }
 
   .review-total-summary__amounts,
@@ -1020,8 +1093,13 @@ a:hover {
     text-align: left;
   }
 
-  .guarantee-badge__text {
-    max-width: 8rem;
+  .review-total-summary__active {
+    font-size: var(--font-size-2xl);
+  }
+
+  .guarantee-badge__image {
+    width: 4rem;
+    height: 4rem;
   }
 }
 
@@ -1038,15 +1116,114 @@ a:hover {
 
 @media (min-width: 641px) and (max-width: 1023px) {
   .product-grid--cameras {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .product-grid--sensors {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .product-card--cameras {
+    padding: var(--space-3);
+  }
+
+  .product-card--cameras .product-card__body {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .product-card--cameras .product-card__media {
+    width: 100%;
+    height: 4rem;
+  }
+
+  .product-card--cameras .product-card__title {
+    padding-right: 0;
+    font-size: var(--font-size-sm);
+  }
+
+  .product-card--cameras .product-card__description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    font-size: var(--font-size-xs);
+  }
+
+  .product-card--cameras .variant-selector {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .product-card--cameras .variant-selector__option {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .product-card--cameras .product-card__footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2);
+  }
+
+  .product-card--cameras .product-card__footer .price-stack {
+    align-items: flex-start;
+    text-align: left;
+    margin-left: 0;
+  }
+
   .review-panel {
     padding: var(--space-6);
+  }
+
+  .review-panel__body {
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .review-panel__items {
+    flex: none;
+    width: 100%;
+  }
+
+  .review-panel__summary {
+    flex: none;
+    width: 100%;
+    max-width: none;
+  }
+
+  .review-total-summary {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: var(--border-width) solid var(--color-border-soft);
+  }
+
+  .review-total-summary__amounts {
+    align-items: flex-start;
+  }
+
+  .review-savings-message {
+    text-align: left;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .product-grid--cameras {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1023px) {
+  .product-grid--cameras {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .product-card--cameras .product-card__media {
+    height: 3.25rem;
+  }
+
+  .product-card--cameras .product-card__learn-more {
+    font-size: var(--font-size-xs);
   }
 
   .review-panel__body {
@@ -1079,18 +1256,10 @@ a:hover {
   .review-savings-message {
     text-align: right;
   }
-}
 
-@media (min-width: 900px) and (max-width: 1023px) {
-  .product-grid--cameras {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
-
-  .product-card--cameras .product-card__description {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
+  .guarantee-badge__image {
+    width: 4.5rem;
+    height: 4.5rem;
   }
 }
 
@@ -1121,5 +1290,10 @@ a:hover {
 
   .product-grid--cameras {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .guarantee-badge__image {
+    width: 5.75rem;
+    height: 5.75rem;
   }
 }
