@@ -1,49 +1,11 @@
 import { useBundleState } from '../hooks/useBundleState';
 import { BundleAccordion } from './accordion/BundleAccordion';
-
-function ReviewPlaceholder() {
-  const groups = ['Cameras', 'Sensors', 'Accessories', 'Plan'];
-
-  return (
-    <aside className="review-column" aria-label="Review">
-      <div className="review-panel">
-        <p className="text-section-label review-label">Review</p>
-        <h2 className="review-title">Your security system</h2>
-        <p className="review-description">
-          Review your selected products and checkout when ready.
-        </p>
-
-        {groups.map((group) => (
-          <div key={group} className="review-group">
-            <p className="text-section-label review-group-label">{group}</p>
-            <div className="review-line-placeholder">
-              <span className="review-line-bar" aria-hidden />
-              <span className="review-line-price" aria-hidden />
-            </div>
-            <div className="review-line-placeholder">
-              <span className="review-line-bar" aria-hidden />
-              <span className="review-line-price" aria-hidden />
-            </div>
-          </div>
-        ))}
-
-        <div className="review-total-placeholder">
-          <div>
-            <span className="review-line-bar" aria-hidden />
-            <span className="review-total-bar" aria-hidden />
-          </div>
-          <button type="button" className="review-checkout-placeholder" disabled>
-            Checkout
-          </button>
-        </div>
-      </div>
-    </aside>
-  );
-}
+import { ReviewPanel } from './review/ReviewPanel';
 
 export function AppShell() {
   const {
     state,
+    summary,
     setActiveStep,
     goToNextStep,
     getStepSelectedCount,
@@ -55,6 +17,9 @@ export function AppShell() {
     decrement,
     canIncrement,
     canDecrement,
+    getReviewLines,
+    getTotals,
+    saveConfiguration,
   } = useBundleState();
 
   const bundleCardActions = {
@@ -62,6 +27,13 @@ export function AppShell() {
     getQuantity,
     getProductTotalQuantity,
     selectVariant,
+    increment,
+    decrement,
+    canIncrement,
+    canDecrement,
+  };
+
+  const reviewLineActions = {
     increment,
     decrement,
     canIncrement,
@@ -83,7 +55,14 @@ export function AppShell() {
             goToNextStep={goToNextStep}
             bundleCardActions={bundleCardActions}
           />
-          <ReviewPlaceholder />
+          <ReviewPanel
+            lines={getReviewLines()}
+            totals={getTotals()}
+            summary={summary}
+            actions={reviewLineActions}
+            onSaveForLater={saveConfiguration}
+            saveStatus={state.saveStatus}
+          />
         </div>
       </div>
     </div>

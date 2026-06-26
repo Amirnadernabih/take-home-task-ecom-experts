@@ -217,6 +217,22 @@ export function getMerchandiseReviewLines(lines: ReviewLine[]): ReviewLine[] {
   return lines.filter((line) => line.category !== 'shipping');
 }
 
+export function shouldShowVariantLabelInReview(
+  lines: ReviewLine[],
+  line: ReviewLine,
+): boolean {
+  if (!line.variantLabel) {
+    return false;
+  }
+
+  const siblingCount = lines.filter(
+    (item) =>
+      item.productId === line.productId && item.category !== 'shipping',
+  ).length;
+
+  return siblingCount > 1;
+}
+
 export function formatLinePrice(line: ReviewLine): string {
   if (line.displayPriceLabel === 'FREE') {
     return 'FREE';
