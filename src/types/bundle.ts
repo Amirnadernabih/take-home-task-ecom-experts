@@ -77,3 +77,47 @@ export interface SelectedVariantLine {
   billingSuffix?: string;
   image?: string;
 }
+
+export type ReviewLineCategory = ProductCategory | 'shipping';
+
+export interface ReviewLine {
+  id: string;
+  productId: string;
+  variantId?: string;
+  productTitle: string;
+  variantLabel?: string;
+  category: ReviewLineCategory;
+  quantity: number;
+  unitPrice: number;
+  unitCompareAtPrice?: number;
+  displayPriceLabel?: string;
+  billingSuffix?: string;
+  image?: string;
+  icon?: string;
+  activeLineTotal: number;
+  compareLineTotal: number;
+}
+
+export type QuantitiesRecord = Record<string, number>;
+
+export type SaveStatus = 'idle' | 'saved' | 'error';
+
+export interface BundleState {
+  activeStepId: string;
+  activeVariantByProductId: Record<string, string>;
+  quantities: QuantitiesRecord;
+  hasRestoredSavedConfig: boolean;
+  saveStatus: SaveStatus;
+}
+
+export interface BundleTotals {
+  activeTotal: number;
+  compareTotal: number;
+  savings: number;
+}
+
+export interface PersistedBundleConfig {
+  activeStepId: string;
+  activeVariantByProductId: Record<string, string>;
+  quantities: QuantitiesRecord;
+}
