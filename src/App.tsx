@@ -1,10 +1,7 @@
+import { AppShell } from './components/AppShell';
+
 function App() {
-  return (
-    <main className="app">
-      <h1>Bundle Builder</h1>
-      <p>Project setup complete</p>
-    </main>
-  );
+  return <AppShell />;
 }
 
 export default App;

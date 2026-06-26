@@ -1,0 +1,423 @@
+:root {
+  /* Colors — surfaces */
+  --color-page: #ffffff;
+  --color-panel: #eef5ff;
+  --color-panel-strong: #e8f1ff;
+  --color-card: #ffffff;
+
+  /* Colors — text */
+  --color-text: #151827;
+  --color-muted: #677085;
+  --color-soft: #a8b0c2;
+
+  /* Colors — borders */
+  --color-border: #cbd4e4;
+  --color-border-soft: #dce5f3;
+  --color-selected: #5437e8;
+  --color-selected-ring: rgba(84, 55, 232, 0.18);
+
+  /* Colors — brand & states */
+  --color-primary: #5437e8;
+  --color-primary-hover: #4226d4;
+  --color-primary-soft: #f3efff;
+  --color-success: #00a870;
+  --color-danger: #e23d35;
+  --color-compare: #d14343;
+
+  /* Typography */
+  --font-main: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', sans-serif;
+  --font-size-xs: 0.6875rem;
+  --font-size-sm: 0.8125rem;
+  --font-size-base: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.375rem;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --line-height-tight: 1.25;
+  --line-height-base: 1.45;
+  --letter-spacing-step: 0.08em;
+  --letter-spacing-label: 0.06em;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  /* Layout */
+  --max-width-app: 1180px;
+  --width-review-column: 360px;
+  --gap-layout: 24px;
+  --page-padding-mobile: 16px;
+  --page-padding-desktop: 24px;
+
+  /* Shape */
+  --radius-panel: 10px;
+  --radius-card: 8px;
+  --radius-button: 8px;
+  --radius-pill: 999px;
+  --border-width: 1px;
+  --border-width-selected: 2px;
+
+  /* Effects */
+  --shadow-soft: 0 12px 30px rgba(20, 24, 39, 0.06);
+  --shadow-card: 0 2px 8px rgba(20, 24, 39, 0.04);
+  --focus-ring: 0 0 0 3px var(--color-selected-ring);
+
+  /* Motion */
+  --transition-fast: 150ms ease;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-main);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text);
+  background-color: var(--color-page);
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: var(--color-primary);
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Typography utilities */
+
+.text-step-label {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-step);
+  text-transform: uppercase;
+  color: var(--color-soft);
+}
+
+.text-section-label {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.text-muted {
+  color: var(--color-muted);
+}
+
+.text-title {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text);
+}
+
+.text-page-title {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text);
+}
+
+/* Page shell */
+
+.page {
+  min-height: 100vh;
+  background: var(--color-page);
+}
+
+.app-container {
+  width: 100%;
+  max-width: var(--max-width-app);
+  margin: 0 auto;
+  padding: var(--page-padding-mobile);
+}
+
+.page-header {
+  margin-bottom: var(--space-5);
+}
+
+.app-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--gap-layout);
+  align-items: start;
+}
+
+.builder-column {
+  min-width: 0;
+}
+
+.builder-panel {
+  background: var(--color-page);
+  border: var(--border-width) solid var(--color-border-soft);
+  border-radius: var(--radius-panel);
+  overflow: hidden;
+}
+
+.review-column {
+  min-width: 0;
+}
+
+.review-panel {
+  background: var(--color-panel);
+  border: var(--border-width) solid var(--color-border-soft);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-soft);
+  padding: var(--space-5);
+}
+
+/* Placeholder — builder steps */
+
+.step-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.step-item {
+  border-bottom: var(--border-width) solid var(--color-border-soft);
+}
+
+.step-item:last-child {
+  border-bottom: none;
+}
+
+.step-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-4) var(--space-5);
+  border: none;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: default;
+}
+
+.step-trigger-main {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.step-icon {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-primary);
+}
+
+.step-copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.step-status {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.step-chevron {
+  width: 0.75rem;
+  height: 0.75rem;
+  color: var(--color-primary);
+}
+
+.step-panel {
+  padding: 0 var(--space-5) var(--space-5);
+}
+
+.step-panel-inner {
+  min-height: 10rem;
+  padding: var(--space-6);
+  border: var(--border-width) dashed var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-panel-strong);
+  color: var(--color-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+.step-panel-placeholder {
+  margin: 0;
+}
+
+/* Placeholder — review */
+
+.review-label {
+  margin: 0 0 var(--space-2);
+}
+
+.review-title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+}
+
+.review-description {
+  margin: 0 0 var(--space-5);
+  font-size: var(--font-size-sm);
+  color: var(--color-muted);
+}
+
+.review-group {
+  margin-bottom: var(--space-5);
+}
+
+.review-group-label {
+  margin-bottom: var(--space-3);
+}
+
+.review-line-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: var(--border-width) solid var(--color-border-soft);
+}
+
+.review-line-placeholder:last-child {
+  border-bottom: none;
+}
+
+.review-line-bar {
+  flex: 1;
+  height: 0.625rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-border-soft);
+}
+
+.review-line-price {
+  width: 3.5rem;
+  height: 0.625rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary-soft);
+}
+
+.review-total-placeholder {
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: var(--border-width) solid var(--color-border);
+}
+
+.review-total-bar {
+  width: 60%;
+  height: 1.25rem;
+  margin-bottom: var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-primary-soft);
+}
+
+.review-checkout-placeholder {
+  width: 100%;
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border: none;
+  border-radius: var(--radius-button);
+  background: var(--color-primary);
+  color: var(--color-page);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  cursor: default;
+}
+
+/* Responsive layout */
+
+@media (min-width: 768px) {
+  .app-container {
+    padding: var(--page-padding-desktop);
+  }
+
+  .page-header--mobile-only {
+    display: none;
+  }
+}
+
+@media (min-width: 960px) {
+  .app-layout {
+    grid-template-columns: minmax(0, 1fr) var(--width-review-column);
+  }
+
+  .review-panel {
+    position: sticky;
+    top: var(--page-padding-desktop);
+  }
+}
+
+@media (max-width: 959px) {
+  .review-panel {
+    padding: var(--space-6);
+  }
+
+  .review-total-placeholder {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+    align-items: end;
+  }
+}
