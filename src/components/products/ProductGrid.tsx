@@ -8,14 +8,13 @@ interface ProductGridProps {
   actions: BundleCardActions;
 }
 
-export function ProductGrid({ products, stepId, actions }: ProductGridProps) {
-  const gridClass =
-    stepId === 'cameras'
-      ? 'product-grid product-grid--cameras'
-      : 'product-grid';
+function getGridClass(stepId: string): string {
+  return `product-grid product-grid--${stepId}`;
+}
 
+export function ProductGrid({ products, stepId, actions }: ProductGridProps) {
   return (
-    <div className={gridClass}>
+    <div className={getGridClass(stepId)}>
       {products.map((product) => (
         <ProductCard key={product.id} product={product} actions={actions} />
       ))}

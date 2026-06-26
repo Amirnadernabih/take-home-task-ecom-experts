@@ -372,8 +372,18 @@ a:hover {
   grid-template-columns: minmax(0, 1fr);
 }
 
+.product-grid--plan,
+.product-grid--sensors,
+.product-grid--accessories {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 @media (min-width: 640px) {
   .product-grid--cameras {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .product-grid--sensors {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -434,6 +444,33 @@ a:hover {
   width: auto;
   height: auto;
   object-fit: contain;
+}
+
+.product-card__media--icon {
+  align-items: flex-start;
+}
+
+.product-card__icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border: var(--border-width) solid var(--color-border-soft);
+  border-radius: var(--radius-card);
+  background: var(--color-page);
+  color: var(--color-primary);
+}
+
+.product-card__icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.product-card--plan .product-card__icon-wrap,
+.product-card--sensors .product-card__icon-wrap,
+.product-card--accessories .product-card__icon-wrap {
+  background: var(--color-panel-strong);
 }
 
 .product-card__content {

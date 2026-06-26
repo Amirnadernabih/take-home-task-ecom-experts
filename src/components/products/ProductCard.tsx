@@ -1,6 +1,7 @@
 import type { Product } from '../../types/bundle';
 import { usesVariantQuantityKeys } from '../../utils/pricing';
 import { Badge } from '../ui/Badge';
+import { Icon } from '../ui/Icon';
 import { PriceStack } from '../ui/PriceStack';
 import { QuantityStepper } from '../ui/QuantityStepper';
 import type { BundleCardActions } from './bundleCardActions';
@@ -9,6 +10,38 @@ import { VariantSelector } from './VariantSelector';
 interface ProductCardProps {
   product: Product;
   actions: BundleCardActions;
+}
+
+function ProductCardMedia({
+  product,
+  imageSrc,
+}: {
+  product: Product;
+  imageSrc?: string;
+}) {
+  if (imageSrc) {
+    return (
+      <div className="product-card__media">
+        <img
+          src={imageSrc}
+          alt={product.title}
+          className="product-card__image"
+        />
+      </div>
+    );
+  }
+
+  if (product.icon) {
+    return (
+      <div className="product-card__media product-card__media--icon">
+        <span className="product-card__icon-wrap" aria-hidden>
+          <Icon name={product.icon} className="product-card__icon" />
+        </span>
+      </div>
+    );
+  }
+
+  return null;
 }
 
 export function ProductCard({ product, actions }: ProductCardProps) {
@@ -22,20 +55,12 @@ export function ProductCard({ product, actions }: ProductCardProps) {
 
   return (
     <article
-      className={`product-card${isSelected ? ' product-card--selected' : ''}`}
+      className={`product-card product-card--${product.category}${isSelected ? ' product-card--selected' : ''}`}
     >
       {product.badge ? <Badge label={product.badge} /> : null}
 
       <div className="product-card__body">
-        {imageSrc ? (
-          <div className="product-card__media">
-            <img
-              src={imageSrc}
-              alt={product.title}
-              className="product-card__image"
-            />
-          </div>
-        ) : null}
+        <ProductCardMedia product={product} imageSrc={imageSrc} />
 
         <div className="product-card__content">
           <h4 className="product-card__title">{product.title}</h4>

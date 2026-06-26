@@ -170,6 +170,7 @@
           "compareAtPrice": 12.99,
           "price": 9.99,
           "billingSuffix": "/mo",
+          "minQuantity": 1,
           "maxQuantity": 1,
           "defaultVariantId": "default",
           "variants": [
